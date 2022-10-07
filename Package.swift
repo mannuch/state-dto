@@ -5,6 +5,12 @@ import PackageDescription
 
 let package = Package(
     name: "state-dto",
+    platforms: [
+       .macOS(.v12),
+       .iOS(.v15),
+       .tvOS(.v15),
+       .watchOS(.v8)
+    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -20,7 +26,10 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "StateDTO",
-            dependencies: []),
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "ULID", package: "ULID.swift")
+            ]),
         .testTarget(
             name: "StateDTOTests",
             dependencies: [.target(name: "StateDTO")]),

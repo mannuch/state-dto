@@ -1,104 +1,228 @@
 import Vapor
 import ULID
 
-struct CreateUser: Content {
-    var stytchUserId: String
-    var phoneId: String
-    var name: String
-    var handle: String
-    var profileImageUrl: String
-    var locationLat: Double
-    var locationLong: Double
-}
-
-struct PatchUser: Content {
-    var name: String?
-    var handle: String?
-    var profileImageUrl: String?
-    var locationLat: Double?
-    var locationLong: Double?
-}
-
-struct UserInfo: Content, Equatable {
-    var id: UUID
-    var name: String
-    var handle: String
-    var profileImageUrl: String
-    var locationLat: Double
-    var locationLong: Double
-}
-
-struct FriendRequestResult: Content {
-    var sender: UserInfo
-    var createdAt: Date
-}
-
-struct ThreadInfo: Content {
-    var id: ULID
-    var members: [UserInfo]
-}
-
-struct Page<T: Content> : Content {
-    var items: [T]
-    var metadata: Metadata
+public struct CreateUserRequest: Content {
+    public var stytchUserId: String
+    public var phoneId: String
+    public var name: String
+    public var handle: String
+    public var profileImageUrl: String
+    public var locationLat: Double
+    public var locationLong: Double
     
-    struct Metadata: Content {
-        var per: Int
-        var total: Int
-        var page: Int
+    public init(
+        stytchUserId: String,
+        phoneId: String,
+        name: String,
+        handle: String,
+        profileImageUrl: String,
+        locationLat: Double,
+        locationLong: Double
+    ) {
+        self.stytchUserId = stytchUserId
+        self.phoneId = phoneId
+        self.name = name
+        self.handle = handle
+        self.profileImageUrl = profileImageUrl
+        self.locationLat = locationLat
+        self.locationLong = locationLong
     }
 }
 
-struct FriendStatusResult: Content {
-    var userId: UUID
-    var status: FriendStatus
+public struct PatchUser: Content {
+    public var name: String?
+    public var handle: String?
+    public var profileImageUrl: String?
+    public var locationLat: Double?
+    public var locationLong: Double?
+    
+    public init(
+        name: String? = nil,
+        handle: String? = nil,
+        profileImageUrl: String? = nil,
+        locationLat: Double? = nil,
+        locationLong: Double? = nil
+    ) {
+        self.name = name
+        self.handle = handle
+        self.profileImageUrl = profileImageUrl
+        self.locationLat = locationLat
+        self.locationLong = locationLong
+    }
 }
 
-enum FriendStatus: String, Codable {
+public struct UserInfo: Content, Equatable {
+    public var id: UUID
+    public var name: String
+    public var handle: String
+    public var profileImageUrl: String
+    public var locationLat: Double
+    public var locationLong: Double
+    
+    public init(
+        id: UUID,
+        name: String,
+        handle: String,
+        profileImageUrl: String,
+        locationLat: Double,
+        locationLong: Double
+    ) {
+        self.id = id
+        self.name = name
+        self.handle = handle
+        self.profileImageUrl = profileImageUrl
+        self.locationLat = locationLat
+        self.locationLong = locationLong
+    }
+    
+}
+
+public struct FriendRequestResult: Content {
+    public var sender: UserInfo
+    public var createdAt: Date
+    
+    public init(sender: UserInfo, createdAt: Date) {
+        self.sender = sender
+        self.createdAt = createdAt
+    }
+}
+
+public struct ThreadInfo: Content {
+    public var id: ULID
+    public var members: [UserInfo]
+    
+    public init(id: ULID, members: [UserInfo]) {
+        self.id = id
+        self.members = members
+    }
+}
+
+public struct Page<T: Content> : Content {
+    public var items: [T]
+    public var metadata: Metadata
+    
+    public init(items: [T], metadata: Metadata) {
+        self.items = items
+        self.metadata = metadata
+    }
+    
+    public struct Metadata: Content {
+        public var per: Int
+        public var total: Int
+        public var page: Int
+        
+        public init(per: Int, total: Int, page: Int) {
+            self.per = per
+            self.total = total
+            self.page = page
+        }
+    }
+    
+    
+}
+
+public struct FriendStatusResult: Content {
+    public var userId: UUID
+    public var status: FriendStatus
+    
+    public init(userId: UUID, status: FriendStatus) {
+        self.userId = userId
+        self.status = status
+    }
+}
+
+public enum FriendStatus: String, Codable {
     case none, friends, sent, recieved
 }
 
-struct FriendRequest: Content {
-    var recipientId: UUID
+public struct FriendRequest: Content {
+    public var recipientId: UUID
+    
+    public init(recipientId: UUID) {
+        self.recipientId = recipientId
+    }
+
 }
 
-struct FriendRequestAction: Content {
-    var senderId: UUID
+public struct FriendRequestAction: Content {
+    public var senderId: UUID
+    
+    public init(senderId: UUID) {
+        self.senderId = senderId
+    }
 }
 
-struct CreatedThreadResult: Content {
-    var threadId: ULID
+public struct CreatedThreadResult: Content {
+    public var threadId: ULID
+    
+    public init(threadId: ULID) {
+        self.threadId = threadId
+    }
+
 }
 
-struct AuthTokenResponse: Content {
-    var accessToken: String
-    var tokenType: String = "Bearer"
+public struct AuthTokenResponse: Content {
+    public var accessToken: String
+    public var tokenType: String
+    
+    public init(accessToken: String, tokenType: String = "Bearer") {
+        self.accessToken = accessToken
+        self.tokenType = tokenType
+    }
 }
 
-struct CheckHandleRequest: Content {
-    var handle: String
+public struct CheckHandleRequest: Content {
+    public var handle: String
+    
+    public init(handle: String) {
+        self.handle = handle
+    }
 }
 
-struct CheckHandleResponse: Content {
-    var available: Bool
+public struct CheckHandleResponse: Content {
+    public var available: Bool
+    
+    public init(available: Bool) {
+        self.available = available
+    }
 }
 
-struct DirectUploadURLRequest: Content {
-    var threadId: ULID
-    var messageId: ULID
+public struct DirectUploadURLRequest: Content {
+    public var threadId: ULID
+    public var messageId: ULID
+    
+    public init(threadId: ULID, messageId: ULID) {
+        self.threadId = threadId
+        self.messageId = messageId
+    }
 }
 
-struct DirectUploadURLResponse: Content {
-    var threadId: ULID
-    var messageId: ULID
-    var frontImageUploadUrl: URL
-    var rearImageUploadUrl: URL
+public struct DirectUploadURLResponse: Content {
+    public var threadId: ULID
+    public var messageId: ULID
+    public var frontImageUploadUrl: URL
+    public var rearImageUploadUrl: URL
+    
+    public init(threadId: ULID, messageId: ULID, frontImageUploadUrl: URL, rearImageUploadUrl: URL) {
+        self.threadId = threadId
+        self.messageId = messageId
+        self.frontImageUploadUrl = frontImageUploadUrl
+        self.rearImageUploadUrl = rearImageUploadUrl
+    }
 }
 
-struct SignedURLRequest: Content {
-    var imageUrl: URL
+public struct SignedURLRequest: Content {
+    public var imageUrl: URL
+    
+    public init(imageUrl: URL) {
+        self.imageUrl = imageUrl
+    }
 }
 
-struct SignedURLResponse: Content {
-    var signedUrl: URL
+public struct SignedURLResponse: Content {
+    public var signedUrl: URL
+    
+    public init(signedUrl: URL) {
+        self.signedUrl = signedUrl
+    }
 }
