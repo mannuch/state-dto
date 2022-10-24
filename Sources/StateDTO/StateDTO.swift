@@ -161,13 +161,23 @@ public struct CreatedThreadResult: Content {
 
 }
 
-public struct AuthTokenResponse: Content {
-    public var accessToken: String
-    public var tokenType: String
+public struct LoginResponse: Content {
+    public var stateJWT: String
+    public var userInfo: UserInfo
     
-    public init(accessToken: String, tokenType: String = "Bearer") {
-        self.accessToken = accessToken
-        self.tokenType = tokenType
+    public init(stateJWT: String, userInfo: UserInfo) {
+        self.stateJWT = stateJWT
+        self.userInfo = userInfo
+    }
+}
+
+public struct CreatedUserResponse: Content {
+    public var stateJWT: String
+    public var userInfo: UserInfo
+    
+    public init(stateJWT: String, userInfo: UserInfo) {
+        self.stateJWT = stateJWT
+        self.userInfo = userInfo
     }
 }
 
