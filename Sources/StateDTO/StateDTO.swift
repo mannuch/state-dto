@@ -1,7 +1,7 @@
 import Vapor
 import ULID
 
-public struct CreateUserRequest: Content {
+public struct CreateUserRequest: Content, Equatable {
     public var stytchUserId: String
     public var phoneId: String
     public var name: String
@@ -29,7 +29,7 @@ public struct CreateUserRequest: Content {
     }
 }
 
-public struct PatchUser: Content {
+public struct PatchUser: Content, Equatable {
     public var name: String?
     public var handle: String?
     public var profileImageUrl: String?
@@ -77,7 +77,7 @@ public struct UserInfo: Content, Equatable {
     
 }
 
-public struct FriendRequestResult: Content {
+public struct FriendRequestResult: Content, Equatable {
     public var sender: UserInfo
     public var createdAt: Date
     
@@ -87,7 +87,7 @@ public struct FriendRequestResult: Content {
     }
 }
 
-public struct ThreadInfo: Content {
+public struct ThreadInfo: Content, Equatable {
     public var id: ULID
     public var members: [UserInfo]
     
@@ -106,7 +106,7 @@ public struct Page<T: Content> : Content {
         self.metadata = metadata
     }
     
-    public struct Metadata: Content {
+    public struct Metadata: Content, Equatable {
         public var per: Int
         public var total: Int
         public var page: Int
@@ -117,11 +117,11 @@ public struct Page<T: Content> : Content {
             self.page = page
         }
     }
-    
-    
 }
 
-public struct FriendStatusResult: Content {
+extension Page: Equatable where T: Equatable {}
+
+public struct FriendStatusResult: Content, Equatable {
     public var userId: UUID
     public var status: FriendStatus
     
@@ -131,11 +131,11 @@ public struct FriendStatusResult: Content {
     }
 }
 
-public enum FriendStatus: String, Codable {
+public enum FriendStatus: String, Codable, Equatable {
     case none, friends, sent, recieved
 }
 
-public struct FriendRequest: Content {
+public struct FriendRequest: Content, Equatable {
     public var recipientId: UUID
     
     public init(recipientId: UUID) {
@@ -144,7 +144,7 @@ public struct FriendRequest: Content {
 
 }
 
-public struct FriendRequestAction: Content {
+public struct FriendRequestAction: Content, Equatable {
     public var senderId: UUID
     
     public init(senderId: UUID) {
@@ -152,16 +152,20 @@ public struct FriendRequestAction: Content {
     }
 }
 
-public struct CreatedThreadResult: Content {
+public struct CreatedThreadResult: Content, Equatable {
     public var threadId: ULID
     
     public init(threadId: ULID) {
         self.threadId = threadId
     }
-
 }
 
-public struct LoginResponse: Content {
+public enum LoginResponse: Content, Equatable {
+    case success(stateJWT: String, userInfo: UserInfo)
+    case userNotFound
+}
+
+public struct CreatedUserResponse: Content, Equatable {
     public var stateJWT: String
     public var userInfo: UserInfo
     
@@ -171,17 +175,7 @@ public struct LoginResponse: Content {
     }
 }
 
-public struct CreatedUserResponse: Content {
-    public var stateJWT: String
-    public var userInfo: UserInfo
-    
-    public init(stateJWT: String, userInfo: UserInfo) {
-        self.stateJWT = stateJWT
-        self.userInfo = userInfo
-    }
-}
-
-public struct CheckHandleRequest: Content {
+public struct CheckHandleRequest: Content, Equatable {
     public var handle: String
     
     public init(handle: String) {
@@ -189,7 +183,7 @@ public struct CheckHandleRequest: Content {
     }
 }
 
-public struct CheckHandleResponse: Content {
+public struct CheckHandleResponse: Content, Equatable {
     public var available: Bool
     
     public init(available: Bool) {
@@ -197,7 +191,7 @@ public struct CheckHandleResponse: Content {
     }
 }
 
-public struct DirectUploadURLRequest: Content {
+public struct DirectUploadURLRequest: Content, Equatable {
     public var threadId: ULID
     public var messageId: ULID
     
@@ -207,7 +201,7 @@ public struct DirectUploadURLRequest: Content {
     }
 }
 
-public struct DirectUploadURLResponse: Content {
+public struct DirectUploadURLResponse: Content, Equatable {
     public var threadId: ULID
     public var messageId: ULID
     public var frontImageUploadUrl: URL
@@ -221,7 +215,7 @@ public struct DirectUploadURLResponse: Content {
     }
 }
 
-public struct SignedURLRequest: Content {
+public struct SignedURLRequest: Content, Equatable {
     public var imageUrl: URL
     
     public init(imageUrl: URL) {
@@ -229,7 +223,7 @@ public struct SignedURLRequest: Content {
     }
 }
 
-public struct SignedURLResponse: Content {
+public struct SignedURLResponse: Content, Equatable {
     public var signedUrl: URL
     
     public init(signedUrl: URL) {
