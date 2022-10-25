@@ -230,3 +230,11 @@ public struct SignedURLResponse: Content, Equatable {
         self.signedUrl = signedUrl
     }
 }
+
+public struct ProfileImageUploadURLResponse: Content, Equatable {
+    public var uploadUrl: URL
+    
+    public init(uploadUrl: URL) {
+        self.uploadUrl = uploadUrl
+    }
+}
