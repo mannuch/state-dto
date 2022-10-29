@@ -1,7 +1,7 @@
-import Vapor
 import ULID
+import Foundation
 
-public struct CreateUserRequest: Content, Equatable {
+public struct CreateUserRequest: Codable, Equatable {
     public var stytchUserId: String
     public var phoneId: String
     public var name: String
@@ -29,7 +29,7 @@ public struct CreateUserRequest: Content, Equatable {
     }
 }
 
-public struct PatchUser: Content, Equatable {
+public struct PatchUser: Codable, Equatable {
     public var name: String?
     public var handle: String?
     public var profileImageUrl: String?
@@ -51,7 +51,7 @@ public struct PatchUser: Content, Equatable {
     }
 }
 
-public struct UserInfo: Content, Equatable {
+public struct UserInfo: Codable, Equatable {
     public var id: UUID
     public var name: String
     public var handle: String
@@ -77,7 +77,7 @@ public struct UserInfo: Content, Equatable {
     
 }
 
-public struct FriendRequestResult: Content, Equatable {
+public struct FriendRequestResult: Codable, Equatable {
     public var sender: UserInfo
     public var createdAt: Date
     
@@ -87,7 +87,7 @@ public struct FriendRequestResult: Content, Equatable {
     }
 }
 
-public struct ThreadInfo: Content, Equatable {
+public struct ThreadInfo: Codable, Equatable {
     public var id: ULID
     public var members: [UserInfo]
     
@@ -97,7 +97,7 @@ public struct ThreadInfo: Content, Equatable {
     }
 }
 
-public struct Page<T: Content> : Content {
+public struct Page<T: Codable> : Codable {
     public var items: [T]
     public var metadata: Metadata
     
@@ -106,7 +106,7 @@ public struct Page<T: Content> : Content {
         self.metadata = metadata
     }
     
-    public struct Metadata: Content, Equatable {
+    public struct Metadata: Codable, Equatable {
         public var per: Int
         public var total: Int
         public var page: Int
@@ -121,7 +121,7 @@ public struct Page<T: Content> : Content {
 
 extension Page: Equatable where T: Equatable {}
 
-public struct FriendStatusResult: Content, Equatable {
+public struct FriendStatusResult: Codable, Equatable {
     public var userId: UUID
     public var status: FriendStatus
     
@@ -135,7 +135,7 @@ public enum FriendStatus: String, Codable, Equatable {
     case none, friends, sent, recieved
 }
 
-public struct FriendRequest: Content, Equatable {
+public struct FriendRequest: Codable, Equatable {
     public var recipientId: UUID
     
     public init(recipientId: UUID) {
@@ -144,7 +144,7 @@ public struct FriendRequest: Content, Equatable {
 
 }
 
-public struct FriendRequestAction: Content, Equatable {
+public struct FriendRequestAction: Codable, Equatable {
     public var senderId: UUID
     
     public init(senderId: UUID) {
@@ -152,7 +152,7 @@ public struct FriendRequestAction: Content, Equatable {
     }
 }
 
-public struct CreatedThreadResult: Content, Equatable {
+public struct CreatedThreadResult: Codable, Equatable {
     public var threadId: ULID
     
     public init(threadId: ULID) {
@@ -160,12 +160,12 @@ public struct CreatedThreadResult: Content, Equatable {
     }
 }
 
-public enum LoginResponse: Content, Equatable {
+public enum LoginResponse: Codable, Equatable {
     case success(stateJWT: String, userInfo: UserInfo)
     case userNotFound
 }
 
-public struct CreatedUserResponse: Content, Equatable {
+public struct CreatedUserResponse: Codable, Equatable {
     public var stateJWT: String
     public var userInfo: UserInfo
     
@@ -175,7 +175,7 @@ public struct CreatedUserResponse: Content, Equatable {
     }
 }
 
-public struct CheckHandleRequest: Content, Equatable {
+public struct CheckHandleRequest: Codable, Equatable {
     public var handle: String
     
     public init(handle: String) {
@@ -183,7 +183,7 @@ public struct CheckHandleRequest: Content, Equatable {
     }
 }
 
-public struct CheckHandleResponse: Content, Equatable {
+public struct CheckHandleResponse: Codable, Equatable {
     public var available: Bool
     
     public init(available: Bool) {
@@ -191,7 +191,7 @@ public struct CheckHandleResponse: Content, Equatable {
     }
 }
 
-public struct DirectUploadURLRequest: Content, Equatable {
+public struct DirectUploadURLRequest: Codable, Equatable {
     public var threadId: ULID
     public var messageId: ULID
     
@@ -201,21 +201,26 @@ public struct DirectUploadURLRequest: Content, Equatable {
     }
 }
 
-public struct DirectUploadURLResponse: Content, Equatable {
+public struct DirectUploadURLResponse: Codable, Equatable {
     public var threadId: ULID
     public var messageId: ULID
-    public var frontImageUploadUrl: URL
-    public var rearImageUploadUrl: URL
+    public var frontImageUrlPair: ImageURLPair
+    public var rearImageUrlPair: ImageURLPair
     
-    public init(threadId: ULID, messageId: ULID, frontImageUploadUrl: URL, rearImageUploadUrl: URL) {
+    public init(
+        threadId: ULID,
+        messageId: ULID,
+        frontImageUrlPair: ImageURLPair,
+        rearImageUrlPair: ImageURLPair
+    ) {
         self.threadId = threadId
         self.messageId = messageId
-        self.frontImageUploadUrl = frontImageUploadUrl
-        self.rearImageUploadUrl = rearImageUploadUrl
+        self.frontImageUrlPair = frontImageUrlPair
+        self.rearImageUrlPair = rearImageUrlPair
     }
 }
 
-public struct SignedURLRequest: Content, Equatable {
+public struct SignedURLRequest: Codable, Equatable {
     public var imageUrl: URL
     
     public init(imageUrl: URL) {
@@ -223,7 +228,7 @@ public struct SignedURLRequest: Content, Equatable {
     }
 }
 
-public struct SignedURLResponse: Content, Equatable {
+public struct SignedURLResponse: Codable, Equatable {
     public var signedUrl: URL
     
     public init(signedUrl: URL) {
@@ -231,10 +236,20 @@ public struct SignedURLResponse: Content, Equatable {
     }
 }
 
-public struct ProfileImageUploadURLResponse: Content, Equatable {
-    public var uploadUrl: URL
+public struct ProfileImageUploadURLResponse: Codable, Equatable {
+    public var urlPair: ImageURLPair
     
-    public init(uploadUrl: URL) {
+    public init(urlPair: ImageURLPair) {
+        self.urlPair = urlPair
+    }
+}
+
+public struct ImageURLPair: Codable, Equatable {
+    public var uploadUrl: URL
+    public var serveUrl: URL
+    
+    public init(uploadUrl: URL, serveUrl: URL) {
         self.uploadUrl = uploadUrl
+        self.serveUrl = serveUrl
     }
 }
