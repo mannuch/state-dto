@@ -253,3 +253,11 @@ public struct ImageURLPair: Codable, Equatable {
         self.serveUrl = serveUrl
     }
 }
+
+public struct DeviceIdUpdate: Codable, Equatable {
+    public var deviceIds: [String]
+    
+    public init(_ deviceIds: [String]) {
+        self.deviceIds = deviceIds
+    }
+}
