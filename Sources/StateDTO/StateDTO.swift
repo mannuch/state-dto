@@ -160,9 +160,8 @@ public struct CreatedThreadResult: Codable, Equatable {
     }
 }
 
-public enum LoginResponse: Codable, Equatable {
-    case success(stateJWT: String, userInfo: UserInfo)
-    case userNotFound
+public struct AuthInfoResponse: Codable, Equatable {
+    let stateJWT: String, userInfo: UserInfo
 }
 
 public struct CreatedUserResponse: Codable, Equatable {
