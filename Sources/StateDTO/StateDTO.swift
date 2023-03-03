@@ -162,6 +162,11 @@ public struct CreatedThreadResult: Codable, Equatable {
 
 public struct AuthInfoResponse: Codable, Equatable {
     let stateJWT: String, userInfo: UserInfo
+    
+    public init(stateJWT: String, userInfo: UserInfo) {
+        self.stateJWT = stateJWT
+        self.userInfo = userInfo
+    }
 }
 
 public struct CreatedUserResponse: Codable, Equatable {
