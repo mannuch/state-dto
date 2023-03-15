@@ -1,6 +1,28 @@
 import ULID
 import Foundation
 
+public struct AuthenticateOTPRequest: Codable, Equatable {
+    public var userId: UUID
+    public var phoneId: String
+    public var otpCode: String
+    
+    public init(userId: UUID, phoneId: String, otpCode: String) {
+        self.userId = userId
+        self.phoneId = phoneId
+        self.otpCode = otpCode
+    }
+}
+
+public struct AuthenticateOTPResponse: Codable, Equatable {
+    public var sessionJWT: String
+    public var sessionToken: String
+    
+    public init(sessionJWT: String, sessionToken: String) {
+        self.sessionJWT = sessionJWT
+        self.sessionToken = sessionToken
+    }
+}
+
 public struct CreateUserRequest: Codable, Equatable {
     public var userId: UUID
     public var stytchUserId: String
