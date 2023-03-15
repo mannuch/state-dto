@@ -2,6 +2,7 @@ import ULID
 import Foundation
 
 public struct CreateUserRequest: Codable, Equatable {
+    public var userId: UUID
     public var stytchUserId: String
     public var phoneId: String
     public var name: String
@@ -11,6 +12,7 @@ public struct CreateUserRequest: Codable, Equatable {
     public var locationLong: Double
     
     public init(
+        userId: UUID,
         stytchUserId: String,
         phoneId: String,
         name: String,
@@ -19,6 +21,7 @@ public struct CreateUserRequest: Codable, Equatable {
         locationLat: Double,
         locationLong: Double
     ) {
+        self.userId = userId
         self.stytchUserId = stytchUserId
         self.phoneId = phoneId
         self.name = name
