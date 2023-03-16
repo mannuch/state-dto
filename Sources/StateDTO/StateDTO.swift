@@ -194,16 +194,6 @@ public struct AuthInfoResponse: Codable, Equatable {
     }
 }
 
-public struct CreatedUserResponse: Codable, Equatable {
-    public var stateJWT: String
-    public var userInfo: UserInfo
-    
-    public init(stateJWT: String, userInfo: UserInfo) {
-        self.stateJWT = stateJWT
-        self.userInfo = userInfo
-    }
-}
-
 public struct CheckHandleRequest: Codable, Equatable {
     public var handle: String
     
