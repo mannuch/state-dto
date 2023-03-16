@@ -2,14 +2,21 @@ import ULID
 import Foundation
 
 public struct AuthenticateOTPRequest: Codable, Equatable {
-    public var userId: UUID
+    public var stytchUserId: String
+    public var userId: UUID?
     public var phoneId: String
     public var otpCode: String
     
-    public init(userId: UUID, phoneId: String, otpCode: String) {
-        self.userId = userId
+    public init(
+        stytchUserId: String,
+        phoneId: String,
+        otpCode: String,
+        userId: UUID?
+    ) {
+        self.stytchUserId = stytchUserId
         self.phoneId = phoneId
         self.otpCode = otpCode
+        self.userId = userId
     }
 }
 
