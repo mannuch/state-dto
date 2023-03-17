@@ -20,13 +20,12 @@ public struct AuthenticateOTPRequest: Codable, Equatable {
 public struct AuthenticateOTPResponse: Codable, Equatable {
     public var sessionJWT: String
     public var sessionToken: String
+    public var userId: UUID
     
-    public var createdUserId: UUID?
-    
-    public init(sessionJWT: String, sessionToken: String, createdUserId: UUID? = nil) {
+    public init(sessionJWT: String, sessionToken: String, userId: UUID) {
         self.sessionJWT = sessionJWT
         self.sessionToken = sessionToken
-        self.createdUserId = createdUserId
+        self.userId = userId
     }
 }
 
