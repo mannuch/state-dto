@@ -21,11 +21,13 @@ public struct AuthenticateOTPResponse: Codable, Equatable {
     public var sessionJWT: String
     public var sessionToken: String
     public var userId: UUID
+    public var userIsPending: Bool
     
-    public init(sessionJWT: String, sessionToken: String, userId: UUID) {
+    public init(sessionJWT: String, sessionToken: String, userId: UUID, userIsPending: Bool) {
         self.sessionJWT = sessionJWT
         self.sessionToken = sessionToken
         self.userId = userId
+        self.userIsPending = userIsPending
     }
 }
 
