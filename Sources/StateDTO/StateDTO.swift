@@ -3,20 +3,17 @@ import Foundation
 
 public struct AuthenticateOTPRequest: Codable, Equatable {
     public var stytchUserId: String
-    public var userId: UUID?
     public var phoneId: String
     public var otpCode: String
     
     public init(
         stytchUserId: String,
         phoneId: String,
-        otpCode: String,
-        userId: UUID?
+        otpCode: String
     ) {
         self.stytchUserId = stytchUserId
         self.phoneId = phoneId
         self.otpCode = otpCode
-        self.userId = userId
     }
 }
 
@@ -24,9 +21,12 @@ public struct AuthenticateOTPResponse: Codable, Equatable {
     public var sessionJWT: String
     public var sessionToken: String
     
-    public init(sessionJWT: String, sessionToken: String) {
+    public var createdUserId: UUID?
+    
+    public init(sessionJWT: String, sessionToken: String, createdUserId: UUID? = nil) {
         self.sessionJWT = sessionJWT
         self.sessionToken = sessionToken
+        self.createdUserId = createdUserId
     }
 }
 
