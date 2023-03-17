@@ -31,6 +31,11 @@ public struct AuthenticateOTPResponse: Codable, Equatable {
     }
 }
 
+public enum UserStatusResponse: Codable, Equatable {
+    case pending(userId: UUID)
+    case complete(userId: UUID)
+}
+
 public struct CreateUserRequest: Codable, Equatable {
     public var userId: UUID
     public var stytchUserId: String
