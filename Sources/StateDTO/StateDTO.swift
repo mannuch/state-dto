@@ -36,6 +36,14 @@ public enum UserStatusResponse: Codable, Equatable {
     case complete(userId: UUID)
 }
 
+public struct UpdatePhoneIdRequest: Codable, Equatable {
+    public var phoneId: String
+    
+    public init(phoneId: String) {
+        self.phoneId = phoneId
+    }
+}
+
 public struct CreateUserRequest: Codable, Equatable {
     public var stytchUserId: String
     public var phoneId: String
