@@ -46,7 +46,6 @@ public struct UpdatePhoneIdRequest: Codable, Equatable {
 
 public struct CreateUserRequest: Codable, Equatable {
     public var stytchUserId: String
-    public var phoneId: String
     public var name: String
     public var handle: String
     public var profileImageUrl: String
@@ -55,7 +54,6 @@ public struct CreateUserRequest: Codable, Equatable {
     
     public init(
         stytchUserId: String,
-        phoneId: String,
         name: String,
         handle: String,
         profileImageUrl: String,
@@ -63,7 +61,6 @@ public struct CreateUserRequest: Codable, Equatable {
         locationLong: Double
     ) {
         self.stytchUserId = stytchUserId
-        self.phoneId = phoneId
         self.name = name
         self.handle = handle
         self.profileImageUrl = profileImageUrl
