@@ -18,7 +18,6 @@ let package = Package(
             targets: ["StateDTO"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.0.0"),
         .package(url: "https://github.com/yaslab/ULID.swift.git", .upToNextMinor(from: "1.2.0"))
     ],
     targets: [
@@ -27,7 +26,6 @@ let package = Package(
         .target(
             name: "StateDTO",
             dependencies: [
-                .product(name: "Vapor", package: "vapor"),
                 .product(name: "ULID", package: "ULID.swift")
             ]),
         .testTarget(
