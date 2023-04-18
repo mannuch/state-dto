@@ -288,10 +288,10 @@ public struct ImageURLPair: Codable, Equatable {
     }
 }
 
-public struct DeviceIdUpdate: Codable, Equatable {
-    public var deviceIds: [String]
+public struct DeviceTokensUpdate: Codable, Equatable {
+    public var deviceTokens: [String]
     
-    public init(_ deviceIds: [String]) {
-        self.deviceIds = deviceIds
+    public init(_ deviceTokens: [String]) {
+        self.deviceTokens = deviceTokens
     }
 }
