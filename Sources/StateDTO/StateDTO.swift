@@ -298,3 +298,9 @@ public struct DeviceTokensUpdate: Codable, Equatable {
     self.deviceTokens = deviceTokens
   }
 }
+
+public enum NotificationType: String, Codable {
+  case receivedThreadRequest = "RECEIVED_THREAD_REQUEST"
+  case acceptedThreadRequest = "ACCEPTED_THREAD_REQUEST"
+  case threadUpdate = "THREAD_UPDATE"
+}
