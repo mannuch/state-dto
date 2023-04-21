@@ -195,14 +195,6 @@ public struct FriendRequestAction: Codable, Equatable {
   }
 }
 
-public struct CreatedThreadResult: Codable, Equatable {
-  public var threadId: ULID
-  
-  public init(threadId: ULID) {
-    self.threadId = threadId
-  }
-}
-
 public struct AuthInfoResponse: Codable, Equatable {
   public let stateJWT: String, userInfo: UserInfo
   
